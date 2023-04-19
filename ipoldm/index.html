@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="IPO-LDM: Depth-aided 360-degree Indoor RGB Panorama Outpainting via Latent Diffusion Model.">
+  <meta name="keywords" content="Indoor Panorama Generation, Stable Diffusion, Depth-aided">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IPO-LDM: Depth-aided 360-degree Indoor RGB Panorama Outpainting via Latent Diffusion Model.</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="icon" href="./static/images/icon.png">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  </head>
+  <body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h2 class="title is-2 publication-title">IPO-LDM: Depth-aided 360-degree Indoor RGB Panorama Outpainting via Latent Diffusion Model</h2>
+          <div class="is-size-5">
+            <span class="author-block">
+                <a href="https://sm0kywu.github.io/CV/CV.html" style="color:#f68946;font-weight:normal;">Tianhao Wu</a>,                
+            </span>
+            <span class="author-block">
+              <a href="https://chuanxiaz.com/" style="color:#F2A900;font-weight:normal;">Chuanxia Zheng</a>,
+            </span>
+            <span class="author-block">
+              <a href="https://personal.ntu.edu.sg/astjcham/index.html" style="color:#f68946;font-weight:normal;">Cham Tat Jen</a>,
+            </span>                              
+          </div>
+
+          <br>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><b style="color:#f68946; font-weight:normal">&#x25B6 </b> SCSE, Nanyang Technological University; </b></span>
+            <span class="author-block"><b style="color:#F2A900; font-weight:normal">&#x25B6 </b> VGG, University of Oxford; </span>
+          </div>
+
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="" target="_blank" 
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img id="teaser" width="150%" src="images/teaser.png">
+      <h2 class="subtitle has-text-centered">
+        <p style="font-family:Times New Roman"><b> IPO-LDM effectively generates semantically meaningful content and plausible appearances on various masks with multiple and diverse solutions.</b></p>
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section"   style="background-color:#efeff081">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Generating complete 360° panoramas from narrow field of view images is 
+            ongoing research as omnidirectional RGB data is not readily available. Existing GAN-based 
+            approaches face some barriers to achieving higher quality output, and have poor 
+            generalization performance over different mask types. In this paper, we present our 
+            <b>360° indoor RGB panorama outpainting model using latent diffusion models (LDM), 
+            called IPO-LDM</b>. We introduce a new bi-modal latent diffusion structure that utilizes both 
+            RGB and depth panoramic data during training, but works surprisingly well to outpaint normal 
+            depth-free RGB images during inference. We further propose a novel technique of introducing 
+            progressive camera rotations during each diffusion denoising step, which leads to substantial 
+            improvement in achieving panorama wraparound consistency. Results show that our IPO-LDM not only 
+            significantly outperforms state-of-the-art methods on RGB panorama outpainting, but can also produce 
+            multiple and diverse well-structured results for different types of masks.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+</section>
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-five-fifths">
+        <h2 class="title is-3"><img id="painting_icon" width="5%" src="images/design.png"> Model Designs</h2> 
+        <!--<h3 class="title is-4"> Bi-modal Latent Diffusion Model & Two-end Alignment Mechanism </h3> -->
+      </div>
+    </div>
+
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-six-fifths">
+                  
+            <img id="model" width="100%" src="images/overview.png">
+            <h3 class="subtitle has-text-centered">
+              <p style="font-family:Times New Roman"><b>The overall pipeline of our proposed IPO-LDM method</b></p>
+            </h3>   
+
+            <div class="content has-text-justified">
+              <ul>
+                <li>IPO-LDM is finetuned upon existing pretrained diffusion models. Note that the VQ-based encoder-decoders for RGBD images are pre-trained in advance, and fixed in the rest of our framework (identified as
+                  “locked”).</li>
+                <li>During training, no masks are used, and depth information is applied to aid in completing RGB panorama synthesis.</li>
+                <li>During inference, the depth information is no longer needed for masked RGB panorama outpainting.</li>
+              </ul>
+            </div>  
+
+        </div>
+  </div>
+</section>
+
+
+
+<section class="section"   style="background-color:#e4e4f781">
+  <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div style="width:90%;">
+
+        <!-- Abstract. -->
+        <div style="width:100%; border: 0px solid black;">
+          <h2 class="title is-5">I. Latent Diffusion Outpainting</h2>
+          <div class="content has-text-justified">
+            As the partially visible regions are not changed during perceptual image compression, we extend RePaint to latent space outpainting in order to perform our task on 512x1024 panoramas. Note that the 360° wraparound consistency is still preserved in both the pixel and latent domains, which is important for our setting.                
+          </div>  
+
+          <div class="column is-five-fifths">
+              <div class="columns is-centered">
+                <img id="modulated_training" width="40%" src="images/outpainting.png">
+              </div>
+          </div>
+        </div>
+
+        <br>
+        <br>
+
+        <div style="width:100%; border: 0px solid black;">
+          <h2 class="title is-5">II. Two-end Alignment Mechanism </h2>
+          <div class="content has-text-justified">
+            Since 360° panoramas are meant to be wraparound consistent, we apply a circular shift data augmentation, called camera-rotation, to the panorama image dataset to enhance the model's performance. In the inference processing, we propose a novel two-end alignment mechanism that can be naturally combined with our latent diffusion outpainting process. During each iteration, we apply the camera-rotation operation to rotate both the latent vectors and masks by 90° (in order to facilitate the rotation back to the initial position so we choose 90°, there can be many other options), before performing an outpainting step.                 
+          </div>  
+
+          <div class="column is-five-fifths">
+              <div class="columns is-centered">
+                <img id="modulated_training" width="40%" src="images/Circular Shift.png">
+              </div>
+              <br>
+              <div class="columns is-centered">
+                <img id="modulated_training" width="70%" src="images/rotational outpainting.png">
+              </div>
+          </div>
+        </div>
+        
+        <br>
+        <br>
+
+        <div style="width: 100%; border: 0px solid black;">
+          <h2 class="title is-5">III. Bi-modal Latent Diffusion Model</h2>
+          <div class="content has-text-justified">
+            We designed a bi-modal latent diffusion structure to introduce depth information while generating high-quality RGB output, but depth is needed only during training. We trained two separate VQ models for RGB and depth images, and then concatenate them at latent level. Reconstructed RGB-D images can be obtained by decoupling <span style="display: inline-block">$$z_{rgbd}$$</span> and decoding.                   
+          </div>          
+        </div>
+
+        
+
+      </div>  
+    </div>     
+</section>
+
+
+
+<section class="section">
+  <!-- Results. -->
+  <div class="columns is-centered has-text-centered">
+    <div class="column is-six-fifths">
+      <h2 class="title is-3">Results</h2>
+    </div>
+  </div>
+  <!-- </div> -->
+  <!--/ Results. -->    
+<div class="container is-max-desktop">
+
+
+  <!-- Grounedtext2img. -->
+  <div class="columns is-centered">
+    <div class="column is-full-width" >
+      <h2 class="title is-4"><font color="#f68946">RGB Outpainting</font></h2>
+      <div style="text-align:center;">
+        <img id="teaser" width="90%" src="images/teaser_1.png">
+        <img id="teaser" width="90%" src="images/teaser_2.png">
+        <h1>
+          <p style="font-family:Times New Roman"><b>IPO-LDM model not only effectively generates semantically meaningful content and plausible appearances with many objects, such as beds, sofas and TV’s, but also provides multiple and diverse solutions for this ill-posed problem.</b>
+        </h1> 
+      </div>    
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <!-- counterfactual. -->
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <h2 class="title is-4"><font color="#f68946">Depth Estimation</font></h2>
+      <div style="text-align:center;">
+        <img id="teaser" width="60%" src="images/depth.png" >
+        <h1>
+          <p style="font-family:Times New Roman"><b>Given complete RGB images, our IPO-LDM can correspondingly generate relatively accurate absolute depth images.</b>
+        </h1> 
+      </div>                
+    </div>
+  </div>
+
+  <br>
+  <br>
+
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <h2 class="title is-4"><font color="#f68946">Coming Soon</font></h2>
+      <h1>
+        <p style="font-family:Times New Roman"><b>3D reconstruction and code availability</b>
+      </h1>               
+    </div>
+  </div>
+
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+</code></pre>
+  </div>
+</section>
+
+
+</body>
+</html>
