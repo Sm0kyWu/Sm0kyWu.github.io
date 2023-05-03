@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>第一个three.js文件_WebGL三维场景</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      /* 隐藏body窗口区域滚动条 */
+    }
+  </style>
+  <!--引入three.js三维引擎-->
+  <script src="http://www.yanhuangxueyuan.com/versions/threejsR92/build/three.js"></script>
+  <script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/controls/OrbitControls.js"></script>
+  <!-- <script src="./three.js"></script> -->
+  <!-- <script src="http://www.yanhuangxueyuan.com/threejs/build/three.js"></script> -->
+</head>
+
+<body>
+    <div id="panorama-container"></div>
+    <script src="http://www.yanhuangxueyuan.com/versions/threejsR92/build/three.js"></script>
+    <script src="http://www.yanhuangxueyuan.com/versions/threejsR92/examples/js/controls/OrbitControls.js"></script>
+
+    <script>
+        let scene, camera, renderer, mesh, controls;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            // camera.target = new THREE.Vector3(0, 0, 0);
+
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth/2, window.innerHeight/2);
+            document.getElementById('panorama-container').appendChild(renderer.domElement);
+
+            let geometry = new THREE.SphereGeometry(512, 60, 40);
+            geometry.scale(-1, 1, 1);
+          
+            let textureLoader = new THREE.TextureLoader();
+            textureLoader.load('https://s2.loli.net/2023/05/03/JSINxCLZfdp4KQP.png', function(texture){
+                var material = new THREE.MeshBasicMaterial({map:texture}); 
+                mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+                renderer.render(scene, camera);
+            });  
+
+            camera.position.set(200, 300, 200);
+
+            window.addEventListener('resize', onWindowResize, true);
+
+            render();
+
+            
+            // controls.addEventListener('change', render);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth/2, window.innerHeight/2);
+        }
+
+        function render() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(render);
+        }
+
+        init();
+        controls = new THREE.OrbitControls(camera,renderer.domElement);
+    </script>
+</body>
+</html>
