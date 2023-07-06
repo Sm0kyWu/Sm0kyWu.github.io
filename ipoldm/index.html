@@ -264,18 +264,30 @@
         <img id="teaser" width="250%" src="images/teaser_2.png"> -->
         <div class="container is-max-desktop content">
           <div class="columns" style="width: 100%; display: flex;">
-            <div class="column is-half" style="overflow-y: auto; align-items: stretch;">
+            <div class="column is-one-thrid" style="overflow-y: auto; align-items: stretch;">
+              <div id="panorama-selector">
+                <img width="100%" src="images/panorama_1_mask.png" data-src="images/panorama_1_mask.png">
+                <img width="100%" src="images/panorama_2_mask.png" data-src="images/panorama_2_mask.png">
+                <img width="100%" src="images/panorama_3_mask.png" data-src="images/panorama_3_mask.png">
+              </div>
+            </div>
+            <div class="column is-one-thrid" style="overflow-y: auto; align-items: stretch;">
               <div id="panorama-selector">
                 <img width="100%" src="images/panorama_1.png" data-src="images/panorama_1.png">
                 <img width="100%" src="images/panorama_2.png" data-src="images/panorama_2.png">
                 <img width="100%" src="images/panorama_3.png" data-src="images/panorama_3.png">
               </div>
             </div>
-            <div class="column is-half" style="flex-grow: 1;">
+            <div class="column is-one-thrid" style="flex-grow: 1;">
               <div id="panorama-container-1"></div>
               <div id="panorama-container-2"></div>
               <div id="panorama-container-3"></div>
             </div>
+            <!-- <div class="column is-one-quarter" style="flex-grow: 1;">
+              <div id="panorama-container-1"></div>
+              <div id="panorama-container-2"></div>
+              <div id="panorama-container-3"></div>
+            </div> -->
           </div>
           <script src="./static/js/three.js"></script>
           <script src="./static/js/OrbitControls.js"></script>
