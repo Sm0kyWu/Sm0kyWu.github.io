@@ -557,8 +557,8 @@
     <div class="column is-full-width">
       <h2 class="title is-4"><font color="#f68946">Depth Estimation</font></h2>
       <div style="text-align:center;">
-        <div class="container is-max-desktop content">
-          <div class="columns" style="width: 100%; display: flex;">
+        <!-- <div class="container is-max-desktop content"> -->
+          <!-- <div class="columns" style="width: 100%; display: flex;">
             <div class="columns is-gapless">
               <div class="column is-one-thrid" style="overflow-y: auto; align-items: stretch;">
                 <div id="panorama-container-4"></div>
@@ -768,8 +768,8 @@
   
           </script>
           
-        </div> 
-        <script>
+        </div>  -->
+        <!-- <script>
           var video1 = document.createElement("video");
           var video2 = document.createElement("video");
           var video3 = document.createElement("video");
@@ -779,12 +779,12 @@
           //video1.controls = true; 
           video1.loop = true;
 
-          video2.src = "images/video2.mp4"; 
+          video2.src = "images/video5.mp4"; 
           video2.width = "100%"; 
           //video2.controls = true; 
           video2.loop = true;
 
-          video3.src = "images/video3.mp4"; 
+          video3.src = "images/video6.mp4"; 
           video3.width = "100%"; 
           //video3.controls = true; 
           video3.loop = true;
@@ -793,25 +793,36 @@
           container_v.appendChild(video1);
           container_v.appendChild(video2);
           container_v.appendChild(video3);
-        </script>
+        </script> -->
         
         <br>
         <div class="columns is-centered">
-          <video width="70%" loop autoplay muted>
-            <source src="images/video1.mp4" type="video/mp4">
+          <video width="100%" loop autoplay muted>
+            <source src="images/video4.mp4" type="video/mp4">
           </video>
         </div>
         <br>
         <div class="columns is-centered">
-          <video width="70%" loop autoplay muted>
-            <source src="images/video2.mp4" type="video/mp4">
+          <video width="100%" loop autoplay muted>
+            <source src="images/video5.mp4" type="video/mp4">
           </video>
         </div>
         <br>
         <div class="columns is-centered">
-          <video width="70%" loop autoplay muted>
-            <source src="images/video3.mp4" type="video/mp4">
+          <video width="100%" loop autoplay muted>
+            <source src="images/video6.mp4" type="video/mp4">
           </video>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-one-thrid" style="text-align: center;">
+            <p>RGB input</p>
+          </div>
+          <div class="column is-one-thrid" style="text-align: center;">
+            <p>Depth GT</p>
+          </div>
+          <div class="column is-one-thrid" style="text-align: center;">
+            <p>IPO-LDM output</p>
+          </div>
         </div>
         <br>
         <!-- <div class="columns is-centered" id="panorama_depth">
