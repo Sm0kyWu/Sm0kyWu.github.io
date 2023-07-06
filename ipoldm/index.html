@@ -599,7 +599,7 @@
                   geometry4.scale(-1, 1, 1);
                 
                   let textureLoader4 = new THREE.TextureLoader();
-                  textureLoader4.load('images/1_rgb.png', function(texture){
+                  textureLoader4.load('images/2_rgb.png', function(texture){
                       var material = new THREE.MeshBasicMaterial({map:texture}); 
                       mesh4 = new THREE.Mesh(geometry4, material);
                       scene4.add(mesh4);
@@ -631,7 +631,7 @@
                   geometry5.scale(-1, 1, 1);
                 
                   let textureLoader5 = new THREE.TextureLoader();
-                  textureLoader5.load('images/1_gt.png', function(texture){
+                  textureLoader5.load('images/2_gt.png', function(texture){
                       var material = new THREE.MeshBasicMaterial({map:texture}); 
                       mesh5 = new THREE.Mesh(geometry5, material);
                       scene5.add(mesh5);
@@ -663,7 +663,7 @@
                   geometry6.scale(-1, 1, 1);
                 
                   let textureLoader6 = new THREE.TextureLoader();
-                  textureLoader6.load('images/1_d.png', function(texture){
+                  textureLoader6.load('images/2_d.png', function(texture){
                       var material = new THREE.MeshBasicMaterial({map:texture}); 
                       mesh6 = new THREE.Mesh(geometry6, material);
                       scene6.add(mesh6);
@@ -774,7 +774,7 @@
           var video2 = document.createElement("video");
           var video3 = document.createElement("video");
 
-          video1.src = "images/video1.mp4"; 
+          video1.src = "images/video4.mp4"; 
           video1.width = "100%"; 
           //video1.controls = true; 
           video1.loop = true;
