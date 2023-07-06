@@ -538,7 +538,7 @@
     <div class="column is-full-width">
       <h2 class="title is-4"><font color="#f68946">Depth Estimation</font></h2>
       <div style="text-align:center;">
-        <div class="container is-max-desktop content">
+        <!-- <div class="container is-max-desktop content">
           <div class="columns" style="width: 100%; display: flex;">
             <!-- <div class="column is-one-third" style="overflow-y: auto; align-items: stretch;">
               <div id="panorama-selector-2">
@@ -546,16 +546,16 @@
                 
               </div>
             </div> -->
-            <div class="columns is-gapless">
+            <!-- <div class="columns is-gapless">
               <div class="column is-half" style="overflow-y: auto; align-items: stretch;">
                 <div id="panorama-container-4"></div>
               </div>
               <div class="column is-half" style="flex-grow: 1;">
                 <div id="panorama-container-5"></div>
               </div>
-            </div>
+            </div> -->
             
-          </div>
+          <!-- </div>
           <script src="./static/js/three.js"></script>
           <script src="./static/js/OrbitControls.js"></script>
       
@@ -694,7 +694,36 @@
   
           </script>
           
+        </div> -->
+
+        <div class="columns is-centered">
+          <img id="depth_outpainting" width="70%" src="images/depth.png">
         </div>
+        <script>
+          var video1 = document.createElement("video");
+          var video2 = document.createElement("video");
+          var video3 = document.createElement("video");
+
+          video1.src = "images/video1.mp4"; 
+          video1.width = "100%"; 
+          video1.controls = true; 
+          video1.loop = true;
+
+          video2.src = "images/video1.mp4"; 
+          video2.width = "100%"; 
+          video2.controls = true; 
+          video2.loop = true;
+
+          video3.src = "images/video1.mp4"; 
+          video3.width = "100%"; 
+          video3.controls = true; 
+          video3.loop = true;
+
+          var container_v = document.querySelector(".columns.is-centered");
+          container_v.appendChild(video1);
+          container_v.appendChild(video2);
+          container_v.appendChild(video3);
+        </script>
         <h1>
           <p style="font-family:Times New Roman"><b>Given complete RGB images, our IPO-LDM can correspondingly generate accurate absolute depth images.</b>
         </h1> 
