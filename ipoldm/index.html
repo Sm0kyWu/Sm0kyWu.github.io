@@ -538,10 +538,163 @@
     <div class="column is-full-width">
       <h2 class="title is-4"><font color="#f68946">Depth Estimation</font></h2>
       <div style="text-align:center;">
-        <div class="columns is-centered">
-          <img id="depth_est" width="90%" src="images/depth.png">
-        </div>
+        <div class="container is-max-desktop content">
+          <div class="columns" style="width: 100%; display: flex;">
+            <!-- <div class="column is-one-third" style="overflow-y: auto; align-items: stretch;">
+              <div id="panorama-selector-2">
+                <img width="100%" src="images/panorama_1.png" data-src="images/panorama_1.png">
+                
+              </div>
+            </div> -->
+            <div class="columns is-gapless">
+              <div class="column is-half" style="overflow-y: auto; align-items: stretch;">
+                <div id="panorama-container-4"></div>
+              </div>
+              <div class="column is-half" style="flex-grow: 1;">
+                <div id="panorama-container-5"></div>
+              </div>
+            </div>
+            
+          </div>
+          <script src="./static/js/three.js"></script>
+          <script src="./static/js/OrbitControls.js"></script>
+      
+          <script>
+              let scene4, camera4, renderer4, mesh4, controls4;
+              let scene5, camera5, renderer5, mesh5, controls5;
+              let container4, containerWidth4, containerHeight4;
+  
+      
+              function init4() {
+                  scene4 = new THREE.Scene();
+                  container4 = document.getElementById('panorama-selector');
+                  containerWidth4 = container4.offsetWidth* 2;
+                  containerHeight4 = containerWidth4 / 2;
+      
+                  camera4 = new THREE.PerspectiveCamera(90, containerWidth4 / containerHeight4, 0.1, 1000);
+                  // camera.target = new THREE.Vector3(0, 0, 0);
+      
+                  renderer4 = new THREE.WebGLRenderer();
+                  renderer4.setSize(containerWidth4/2, containerHeight4/2);
+                  document.getElementById('panorama-container-4').appendChild(renderer4.domElement);
+      
+                  let geometry4 = new THREE.SphereGeometry(512, 120, 60);
+                  geometry4.scale(-1, 1, 1);
+                
+                  let textureLoader4 = new THREE.TextureLoader();
+                  textureLoader4.load('images/panorama_4.png', function(texture){
+                      var material = new THREE.MeshBasicMaterial({map:texture}); 
+                      mesh4 = new THREE.Mesh(geometry4, material);
+                      scene4.add(mesh4);
+                      renderer4.render(scene4, camera4);
+                  });  
+      
+                  camera4.position.set(100, 0, 100);
+                  camera4.lookAt(scene4.position);
+      
+                  window.addEventListener('resize', onWindowResize4, true);
+      
+                  render4();
+      
+                  
+                  // controls.addEventListener('change', render);
+              }
+
+              function init5() {
+                  scene5 = new THREE.Scene();
+      
+                  camera5 = new THREE.PerspectiveCamera(90, containerWidth4 / containerHeight4, 0.1, 1000);
+                  // camera.target = new THREE.Vector3(0, 0, 0);
+      
+                  renderer5 = new THREE.WebGLRenderer();
+                  renderer5.setSize(containerWidth4/2, containerHeight4/2);
+                  document.getElementById('panorama-container-5').appendChild(renderer5.domElement);
+      
+                  let geometry5 = new THREE.SphereGeometry(512, 120, 60);
+                  geometry5.scale(-1, 1, 1);
+                
+                  let textureLoader5 = new THREE.TextureLoader();
+                  textureLoader5.load('images/panorama_5.png', function(texture){
+                      var material = new THREE.MeshBasicMaterial({map:texture}); 
+                      mesh5 = new THREE.Mesh(geometry5, material);
+                      scene5.add(mesh5);
+                      renderer4.render(scene5, camera5);
+                  });  
+      
+                  camera5.position.set(100, 0, 100);
+                  camera5.lookAt(scene5.position);
+      
+                  window.addEventListener('resize', onWindowResize4, true);
+      
+                  render5();
+      
+                  
+                  // controls.addEventListener('change', render);
+              }
+      
+              function onWindowResize4() {
+                  camera4.aspect = containerWidth4 / containerHeight4;
+                  camera4.updateProjectionMatrix();
+                  renderer4.setSize(containerWidth4/2, containerHeight4/2);
+
+                  camera5.aspect = containerWidth4 / containerHeight4;
+                  camera5.updateProjectionMatrix();
+                  renderer5.setSize(containerWidth4/2, containerHeight4/2);
+              }
+      
+              // function render() {
+              //     renderer.render(scene, camera);
+              //     requestAnimationFrame(render);
+              // }
+  
+  
+              let angle4 = 0;
+              let autoRotate4 = true;
+  
+              function render4() {
+                  if(autoRotate4) {
+                    angle4 += 0.01;
+  
+                    let radius = 50;
+                    let x = radius * Math.cos(angle4);
+                    let z = radius * Math.sin(angle4);
+  
+                    camera4.position.set(x, 0, z);
+                    camera4.lookAt(scene4.position);
+                  }
+  
+                  renderer4.render(scene4, camera4);
+  
+                  requestAnimationFrame(render4);
+              }
+
+              let angle5 = 0;
+              let autoRotate5 = true;
+  
+              function render5() {
+                  if(autoRotate5) {
+                    angle5 += 0.01;
+  
+                    let radius = 50;
+                    let x = radius * Math.cos(angle5);
+                    let z = radius * Math.sin(angle5);
+  
+                    camera5.position.set(x, 0, z);
+                    camera5.lookAt(scene5.position);
+                  }
+  
+                  renderer5.render(scene5, camera5);
+  
+                  requestAnimationFrame(render5);
+              }
+              
+  
+              init4();
+              init5();
+  
+          </script>
           
+        </div>
         <h1>
           <p style="font-family:Times New Roman"><b>Given complete RGB images, our IPO-LDM can correspondingly generate relatively accurate absolute depth images.</b>
         </h1> 
