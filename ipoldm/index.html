@@ -209,7 +209,7 @@
                 let geometry3 = new THREE.SphereGeometry(512, 120, 60);
                 geometry3.scale(-1, 1, 1);
               
-                let textureLoader1 = new THREE.TextureLoader();
+                let textureLoader3 = new THREE.TextureLoader();
                 textureLoader3.load('images/panorama_3.png', function(texture){
                     var material = new THREE.MeshBasicMaterial({map:texture}); 
                     mesh3 = new THREE.Mesh(geometry3, material);
