@@ -140,7 +140,7 @@
     
                 renderer1 = new THREE.WebGLRenderer();
                 renderer1.setSize(containerWidth/2, containerHeight/2);
-                document.getElementById('panorama-container-1').appendChild(renderer.domElement);
+                document.getElementById('panorama-container-1').appendChild(renderer1.domElement);
     
                 let geometry1 = new THREE.SphereGeometry(512, 120, 60);
                 geometry1.scale(-1, 1, 1);
@@ -158,7 +158,7 @@
     
                 window.addEventListener('resize', onWindowResize, true);
     
-                render();
+                render1();
     
                 
                 // controls.addEventListener('change', render);
@@ -172,7 +172,7 @@
     
                 renderer2 = new THREE.WebGLRenderer();
                 renderer2.setSize(containerWidth/2, containerHeight/2);
-                document.getElementById('panorama-container-2').appendChild(renderer.domElement);
+                document.getElementById('panorama-container-2').appendChild(renderer2.domElement);
     
                 let geometry2 = new THREE.SphereGeometry(512, 120, 60);
                 geometry2.scale(-1, 1, 1);
@@ -190,7 +190,7 @@
     
                 window.addEventListener('resize', onWindowResize, true);
     
-                render();
+                render2();
     
                 
                 // controls.addEventListener('change', render);
@@ -204,7 +204,7 @@
     
                 renderer3 = new THREE.WebGLRenderer();
                 renderer3.setSize(containerWidth/2, containerHeight/2);
-                document.getElementById('panorama-container-3').appendChild(renderer.domElement);
+                document.getElementById('panorama-container-3').appendChild(renderer3.domElement);
     
                 let geometry3 = new THREE.SphereGeometry(512, 120, 60);
                 geometry3.scale(-1, 1, 1);
@@ -222,7 +222,7 @@
     
                 window.addEventListener('resize', onWindowResize, true);
     
-                render();
+                render3();
     
                 
                 // controls.addEventListener('change', render);
@@ -256,7 +256,7 @@
             let angle3 = 0;
             let autoRotate3 = true;
 
-            function render() {
+            function render1() {
                 if(autoRotate1) {
                   angle1 += 0.01;
 
@@ -271,8 +271,10 @@
                 renderer1.render(scene1, camera1);
 
                 requestAnimationFrame(render1);
+            }
 
-                if(autoRotate2) {
+            function render2(){
+              if(autoRotate2) {
                   angle2 += 0.01;
 
                   let radius = 50;
@@ -286,8 +288,10 @@
                 renderer2.render(scene2, camera2);
 
                 requestAnimationFrame(render2);
+            }
 
-                if(autoRotate3) {
+            function render3(){
+              if(autoRotate3) {
                   angle3 += 0.01;
 
                   let radius = 50;
@@ -298,20 +302,20 @@
                   camera3.lookAt(scene3.position);
                 }
 
-                renderer1.render(scene3, camera3);
+                renderer3.render(scene3, camera3);
 
                 requestAnimationFrame(render3);
             }
 
-            function loadPano(path) {
-              let textureLoader = new THREE.TextureLoader();
-              textureLoader.load(path, function(texture){
-                mesh.material.map = texture;
-                mesh.material.needsUpdate = true;
-              });
-              camera.position.set(50, 0, 50);
-              camera.lookAt(scene.position);
-            }
+            // function loadPano(path) {
+            //   let textureLoader = new THREE.TextureLoader();
+            //   textureLoader.load(path, function(texture){
+            //     mesh.material.map = texture;
+            //     mesh.material.needsUpdate = true;
+            //   });
+            //   camera1.position.set(50, 0, 50);
+            //   camera1.lookAt(scene.position);
+            // }
     
             init1();
             controls1 = new THREE.OrbitControls(camera1,renderer1.domElement);
