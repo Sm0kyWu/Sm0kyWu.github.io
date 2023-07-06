@@ -696,34 +696,53 @@
           
         </div> -->
 
-        <div class="columns is-centered">
+        <div class="columns is-centered" id="panorama_depth">
           <img id="depth_outpainting" width="70%" src="images/depth.png">
         </div>
-        <script>
+        <!-- <script>
           var video1 = document.createElement("video");
           var video2 = document.createElement("video");
           var video3 = document.createElement("video");
 
           video1.src = "images/video1.mp4"; 
           video1.width = "100%"; 
-          video1.controls = true; 
+          //video1.controls = true; 
           video1.loop = true;
 
-          video2.src = "images/video1.mp4"; 
+          video2.src = "images/video2.mp4"; 
           video2.width = "100%"; 
-          video2.controls = true; 
+          //video2.controls = true; 
           video2.loop = true;
 
-          video3.src = "images/video1.mp4"; 
+          video3.src = "images/video3.mp4"; 
           video3.width = "100%"; 
-          video3.controls = true; 
+          //video3.controls = true; 
           video3.loop = true;
 
-          var container_v = document.querySelector(".columns.is-centered");
+          var container_v = document.querySelector("columns is-centered");
           container_v.appendChild(video1);
           container_v.appendChild(video2);
           container_v.appendChild(video3);
-        </script>
+        </script> -->
+        <br>
+        <br>
+        <div class="columns is-centered">
+          <video width="70%" loop autoplay muted>
+            <source src="images/video1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <br>
+        <div class="columns is-centered">
+          <video width="70%" loop autoplay muted>
+            <source src="images/video2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <br>
+        <div class="columns is-centered">
+          <video width="70%" loop autoplay muted>
+            <source src="images/video3.mp4" type="video/mp4">
+          </video>
+        </div>
         <h1>
           <p style="font-family:Times New Roman"><b>Given complete RGB images, our IPO-LDM can correspondingly generate accurate absolute depth images.</b>
         </h1> 

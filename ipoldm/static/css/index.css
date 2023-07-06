@@ -37,11 +37,13 @@ body {
 }
 
 .publication-banner video {
-  position: relative;
+  /* position: relative;
   left: auto;
   top: auto;
   transform: none;
-  object-fit: fit;
+  object-fit: fit; */
+  border: none;
+  outline: none;
 }
 
 .publication-header .hero-body {
