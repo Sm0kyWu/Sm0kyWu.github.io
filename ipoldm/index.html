@@ -557,30 +557,28 @@
     <div class="column is-full-width">
       <h2 class="title is-4"><font color="#f68946">Depth Estimation</font></h2>
       <div style="text-align:center;">
-        <!-- <div class="container is-max-desktop content">
+        <div class="container is-max-desktop content">
           <div class="columns" style="width: 100%; display: flex;">
-            <!-- <div class="column is-one-third" style="overflow-y: auto; align-items: stretch;">
-              <div id="panorama-selector-2">
-                <img width="100%" src="images/panorama_1.png" data-src="images/panorama_1.png">
-                
-              </div>
-            </div> -->
-            <!-- <div class="columns is-gapless">
-              <div class="column is-half" style="overflow-y: auto; align-items: stretch;">
+            <div class="columns is-gapless">
+              <div class="column is-one-thrid" style="overflow-y: auto; align-items: stretch;">
                 <div id="panorama-container-4"></div>
               </div>
-              <div class="column is-half" style="flex-grow: 1;">
+              <div class="column is-one-thrid" style="flex-grow: 1;">
                 <div id="panorama-container-5"></div>
               </div>
-            </div> -->
+              <div class="column is-one-thrid" style="flex-grow: 1;">
+                <div id="panorama-container-6"></div>
+              </div>
+            </div>
             
-          <!-- </div>
+          </div>
           <script src="./static/js/three.js"></script>
           <script src="./static/js/OrbitControls.js"></script>
       
           <script>
               let scene4, camera4, renderer4, mesh4, controls4;
               let scene5, camera5, renderer5, mesh5, controls5;
+              let scene6, camera6, renderer6, mesh6, controls6;
               let container4, containerWidth4, containerHeight4;
   
       
@@ -601,7 +599,7 @@
                   geometry4.scale(-1, 1, 1);
                 
                   let textureLoader4 = new THREE.TextureLoader();
-                  textureLoader4.load('images/panorama_4.png', function(texture){
+                  textureLoader4.load('images/1_rgb.png', function(texture){
                       var material = new THREE.MeshBasicMaterial({map:texture}); 
                       mesh4 = new THREE.Mesh(geometry4, material);
                       scene4.add(mesh4);
@@ -633,11 +631,11 @@
                   geometry5.scale(-1, 1, 1);
                 
                   let textureLoader5 = new THREE.TextureLoader();
-                  textureLoader5.load('images/panorama_5.png', function(texture){
+                  textureLoader5.load('images/1_gt.png', function(texture){
                       var material = new THREE.MeshBasicMaterial({map:texture}); 
                       mesh5 = new THREE.Mesh(geometry5, material);
                       scene5.add(mesh5);
-                      renderer4.render(scene5, camera5);
+                      renderer5.render(scene5, camera5);
                   });  
       
                   camera5.position.set(100, 0, 100);
@@ -646,6 +644,38 @@
                   window.addEventListener('resize', onWindowResize4, true);
       
                   render5();
+      
+                  
+                  // controls.addEventListener('change', render);
+              }
+
+              function init6() {
+                  scene6 = new THREE.Scene();
+      
+                  camera6 = new THREE.PerspectiveCamera(90, containerWidth4 / containerHeight4, 0.1, 1000);
+                  // camera.target = new THREE.Vector3(0, 0, 0);
+      
+                  renderer6 = new THREE.WebGLRenderer();
+                  renderer6.setSize(containerWidth4/2, containerHeight4/2);
+                  document.getElementById('panorama-container-6').appendChild(renderer6.domElement);
+      
+                  let geometry6 = new THREE.SphereGeometry(512, 120, 60);
+                  geometry5.scale(-1, 1, 1);
+                
+                  let textureLoader6 = new THREE.TextureLoader();
+                  textureLoader6.load('images/1_d.png', function(texture){
+                      var material = new THREE.MeshBasicMaterial({map:texture}); 
+                      mesh6 = new THREE.Mesh(geometry6, material);
+                      scene6.add(mesh6);
+                      renderer6.render(scene6, camera6);
+                  });  
+      
+                  camera6.position.set(100, 0, 100);
+                  camera6.lookAt(scene6.position);
+      
+                  window.addEventListener('resize', onWindowResize4, true);
+      
+                  render6();
       
                   
                   // controls.addEventListener('change', render);
@@ -659,6 +689,10 @@
                   camera5.aspect = containerWidth4 / containerHeight4;
                   camera5.updateProjectionMatrix();
                   renderer5.setSize(containerWidth4/2, containerHeight4/2);
+
+                  camera6.aspect = containerWidth4 / containerHeight4;
+                  camera6.updateProjectionMatrix();
+                  renderer6.setSize(containerWidth4/2, containerHeight4/2);
               }
       
               // function render() {
@@ -706,15 +740,36 @@
   
                   requestAnimationFrame(render5);
               }
+
+              let angle6 = 0;
+              let autoRotate6 = true;
+  
+              function render6() {
+                  if(autoRotate6) {
+                    angle6 += 0.01;
+  
+                    let radius = 50;
+                    let x = radius * Math.cos(angle6);
+                    let z = radius * Math.sin(angle6);
+  
+                    camera6.position.set(x, 0, z);
+                    camera6.lookAt(scene6.position);
+                  }
+  
+                  renderer6.render(scene6, camera6);
+  
+                  requestAnimationFrame(render6);
+              }
               
   
               init4();
               init5();
+              init6();
   
           </script>
           
-        </div> -->
-        <!-- <script>
+        </div> 
+        <script>
           var video1 = document.createElement("video");
           var video2 = document.createElement("video");
           var video3 = document.createElement("video");
@@ -738,7 +793,7 @@
           container_v.appendChild(video1);
           container_v.appendChild(video2);
           container_v.appendChild(video3);
-        </script> -->
+        </script>
         
         <br>
         <div class="columns is-centered">
@@ -759,9 +814,9 @@
           </video>
         </div>
         <br>
-        <div class="columns is-centered" id="panorama_depth">
+        <!-- <div class="columns is-centered" id="panorama_depth">
           <img id="depth_outpainting" width="70%" src="images/depth.png">
-        </div>
+        </div> -->
         <h1>
           <p style="font-family:Times New Roman"><b>Given complete RGB images, our IPO-LDM can correspondingly generate accurate absolute depth images.</b>
         </h1> 
