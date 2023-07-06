@@ -164,8 +164,25 @@
                 renderer.setSize(containerWidth/2, containerHeight/2);
             }
     
+            // function render() {
+            //     renderer.render(scene, camera);
+            //     requestAnimationFrame(render);
+            // }
+
+            let angle = 0;
+
             function render() {
+                angle += 0.01;
+
+                let radius = 50;
+                let x = radius * Math.cos(angle);
+                let z = radius * Math.sin(angle);
+
+                camera.position.set(x, 0, z);
+                camera.lookAt(scene.position);
+
                 renderer.render(scene, camera);
+
                 requestAnimationFrame(render);
             }
 
