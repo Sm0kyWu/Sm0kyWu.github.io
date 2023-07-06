@@ -115,6 +115,8 @@
           </div>
           <div class="column" style="flex-grow: 1;">
             <div id="panorama-container"></div>
+            <!-- <div id="panorama-container-1"></div>
+            <div id="panorama-container-2"></div> -->
           </div>
         </div>
         <script src="./static/js/three.js"></script>
@@ -170,16 +172,19 @@
             // }
 
             let angle = 0;
+            let autoRotate = true;
 
             function render() {
-                angle += 0.01;
+                if(autoRotate) {
+                  angle += 0.01;
 
-                let radius = 50;
-                let x = radius * Math.cos(angle);
-                let z = radius * Math.sin(angle);
+                  let radius = 50;
+                  let x = radius * Math.cos(angle);
+                  let z = radius * Math.sin(angle);
 
-                camera.position.set(x, 0, z);
-                camera.lookAt(scene.position);
+                  camera.position.set(x, 0, z);
+                  camera.lookAt(scene.position);
+                }
 
                 renderer.render(scene, camera);
 
@@ -203,15 +208,21 @@
     
             let selector = document.getElementById('panorama-selector');
             let display = document.getElementById('panorama-container');
-            let scrollStep = selector.offsetWidth / 3; // 每次滚动的距离
+            let scrollStep = selector.offsetWidth / 3; 
+
+            display.addEventListener('mouseover', function() {
+                autoRotate = false;
+            });
+
+            display.addEventListener('mouseout', function() {
+                autoRotate = true;
+            });
 
             selector.addEventListener('wheel', function (event) {
               event.preventDefault();
               if (event.deltaY < 0) {
-                // 向上滚动
                 selector.scrollLeft -= scrollStep;
               } else {
-                // 向下滚动
                 selector.scrollLeft += scrollStep;
               }
             });
