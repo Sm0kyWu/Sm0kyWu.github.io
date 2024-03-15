@@ -252,8 +252,8 @@ hr {
     <select id="full_label-selector" class="partial_label-selector" style="padding: 2px; background:#f0f0f0; border:none; font-family: &#39;Noto Sans&#39;, sans-serif; font-size:16px;">
                 <option value="scene1" selected="">Scene 1</option>
                 <option value="scene2">Scene 2</option>
-                <!-- <option value="scene3">Scene 3</option>
-                <option value="scene4">Scene 4</option> -->
+                <option value="scene3">Scene 3</option>
+                <option value="scene4">Scene 4</option>
 
    </select>
 
@@ -503,6 +503,80 @@ hr {
                     </div>
                 </div>
             </div>
+
+            <div class="full_label scene4" >
+                <div class="grid-container">
+                <div class="obj1">
+                  <img src="./mesh/scene4/object_1.png" height="160" width="250">
+                </div>
+                <div class="obj2">
+                        <model-viewer style="height: 180px; width: 300px;"
+                                  orientation="0deg -90deg -90deg"
+                                  alt="scene"
+                                  src="./mesh/scene4/1_gt.glb"
+                                  camera-controls auto-rotate
+                                  exposure=".5"
+                                  generate-schema>
+                        </model-viewer>
+                  </div>
+                  <div class="obj3">
+                        <model-viewer style="height: 180px; width: 300px;"
+                                  orientation="0deg -90deg -90deg"
+                                  alt="scene"
+                                  src="./mesh/scene4/1_ours.glb"
+                                  camera-controls auto-rotate
+                                  exposure=".5"
+                                  generate-schema>
+                        </model-viewer>
+                  </div>
+                  <div class="obj1">
+                    <img src="./mesh/scene4/object_2.png" height="160" width="250">
+                  </div>
+                  <div class="obj2">
+                          <model-viewer style="height: 180px; width: 300px;"
+                                    orientation="0deg -90deg 0deg"
+                                    alt="scene"
+                                    src="./mesh/scene4/2_gt.glb"
+                                    camera-controls auto-rotate
+                                    exposure=".5"
+                                    generate-schema>
+                          </model-viewer>
+                    </div>
+                    <div class="obj3">
+                          <model-viewer style="height: 180px; width: 300px;"
+                                    orientation="0deg -90deg 0deg"
+                                    alt="scene"
+                                    src="./mesh/scene4/2_ours.glb"
+                                    camera-controls auto-rotate
+                                    exposure=".5"
+                                    generate-schema>
+                          </model-viewer>
+                    </div>
+                    <div class="obj1">
+                        <img src="./mesh/scene4/object_3.png" height="160" width="250">
+                      </div>
+                      <div class="obj2">
+                              <model-viewer style="height: 180px; width: 300px;"
+                                        orientation="-90deg 0deg 0deg"
+                                        alt="scene"
+                                        src="./mesh/scene4/3_gt.glb"
+                                        camera-controls auto-rotate
+                                        exposure=".5"
+                                        generate-schema>
+                              </model-viewer>
+                        </div>
+                        <div class="obj3">
+                              <model-viewer style="height: 180px; width: 300px;"
+                                        orientation="-150deg 0deg 0deg"
+                                        alt="scene"
+                                        src="./mesh/scene4/3_ours.glb"
+                                        camera-controls auto-rotate
+                                        exposure=".5"
+                                        generate-schema>
+                              </model-viewer>
+                        </div>
+                    </div>
+                </div>
 
 <br>
 
