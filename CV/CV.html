@@ -107,18 +107,20 @@
   
   <!-- Contact section -->
   <div class="contact" style="margin-top: 20px;">
-    <img src="CV.jpg" alt="Profile Picture" style="width: 200px; height: 200px;">
+    <img src="cv.jpg" alt="Profile Picture" style="width: 200px; height: 200px;">
     <div>
       <p>S-Lab, Nanyang Technological University</p>
       <br>
       <p><a href="mailto:Tianhao001@e.ntu.edu.sg">Tianhao001@e.ntu.edu.sg</a></p> 
+      <br>
+      <p>(me in Tromso, Norway)</a></p> 
     </div>
   </div>
   
   <!-- Main section -->
   <main>
     <h3>About Me</h3>
-    <p>Hi, I am a Ph.D. student at Nanyang Technological University, Singapore, supervised by Prof. Cham Tat Jen. Currently, my research focus on 2D image generation and manipulation and 3D reconstruction.</p>
+    <p>Currently I am a Ph.D. student at Nanyang Technological University, Singapore, supervised by Prof. Cham Tat Jen. My research focus on 2D image generation/manipulation and 3D reconstruction/editing.</p>
     <br>
     <h3>Education</h3>
     <p>(2022 - present) Ph.D. in Computer Science, Nanyang Technological University, Singapore</p>
@@ -127,6 +129,49 @@
     <h3>Intership</h3>
     <p>(2022.2 - 2022.6) Intern at ByteDance AI Lab, Beijing, China</p>
     <p>(2022.10 - 2022.12) Intern at SenseTime Autonomous Driving, Beijing, China</p>
+    <h3>Publications</h3>
+    <tr onmouseout="ipo_stop()" onmouseover="ipo_start()">
+            <td style="padding:20px;width:25%;vertical-align:middle">
+              <div class="one">
+                <div class="two" id='ipo_image'>
+                <video  width=100% height=100% muted autoplay loop>
+                <source src="images/ipo_teaser.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+                </video></div>
+                <img src='images/ipo_teaser.png' padding="20" width="160">
+              </div>
+              <script type="text/javascript">
+                function ipo_start() {
+                  document.getElementById('ipo_image').style.opacity = "1";
+                }
+
+                function ipo_stop() {
+                  document.getElementById('ipo_image').style.opacity = "0";
+                }
+                ipo_stop()
+              </script>
+            </td>
+            <td style="padding:20px;width:75%;vertical-align:middle">
+              <a href="https://sm0kywu.github.io/panodiffusion/">
+                <papertitle>PanoDiffusion: 360-degree Panorama Outpainting via Diffusion</papertitle>
+              </a>
+              <br>
+              <strong>Tianhao Wu</strong>,
+              <a href="https://chuanxiaz.com/">Chuanxia Zheng</a>,
+              <a href="https://personal.ntu.edu.sg/astjcham/">Tat-Jen Cham</a>
+              <br>
+              <em>ICLR</em>, 2024
+              <br>
+              <a href="https://sm0kywu.github.io/panodiffusion/">project page</a> /
+              <a href="">PDF</a> /
+              <a href="https://arxiv.org/abs/2307.03177">arXiv</a> /
+              <!-- <a href="https://www.youtube.com/watch?v=cy0fDO3-QSA">video</a> / -->
+              <a href="https://sm0kywu.github.io/panodiffusion/">code</a>
+              <p></p>
+              <p>An indoor panorama outpainting model using latent diffusion models with view-consistent.</p>
+            </td>
+          </tr>
+    
 
     
      
