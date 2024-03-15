@@ -174,6 +174,46 @@
     <br>
     <h3>Publications</h3>
     <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+      <tr onmouseout="sdf_stop()" onmouseover="sdf_start()">
+        <td style="padding:20px;width:25%;vertical-align:middle">
+          <div class="one">
+            <div class="two" id='sdf_image'>
+            <video  width=100% height=100% muted autoplay loop>
+            <source src="images/sdf_teaser.mp4" type="video/mp4">
+            </video></div>
+            <img src='images/sdf_teaser.png' padding="20" width="200">
+          </div>
+          <script type="text/javascript">
+            function ipo_start() {
+              document.getElementById('sdf_image').style.opacity = "1";
+            }
+
+            function ipo_stop() {
+              document.getElementById('sdf_image').style.opacity = "0";
+            }
+            ipo_stop()
+          </script>
+        </td>
+        <td style="padding:20px;width:75%;vertical-align:middle">
+          <a href="https://sm0kywu.github.io/ClusteringSDF/ClusteringSDF.html">
+            ClusteringSDF: Self-Organized Neural Implicit Surfaces for 3D Decomposition
+          </a>
+          <br>
+          <strong>Tianhao Wu</strong>,
+          <a href="https://chuanxiaz.com/">Chuanxia Zheng</a>,
+          <a href="https://personal.ntu.edu.sg/astjcham/">Tat-Jen Cham</a>
+          <a href="https://qianyiwu.github.io/">Qianyi Wu</a>
+          <br>
+          <em>ICLR</em>, 2024
+          <br>
+          <a href="https://sm0kywu.github.io/ClusteringSDF/ClusteringSDF.html">project page</a> /
+          <a href="">arXiv</a> /
+          <a href="">code</a>
+          <p></p>
+          <p>A self-organized 3D segmentation model via neural implicit surface representation.</p>
+        </td>
+      </tr>
+      
       <tr onmouseout="ipo_stop()" onmouseover="ipo_start()">
         <td style="padding:20px;width:25%;vertical-align:middle">
           <div class="one">
