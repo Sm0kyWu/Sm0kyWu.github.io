@@ -219,13 +219,41 @@ hr {
     
 
     <h3 class="title is-4">Object Surface Reconstruction</h3>
+    <script>
+        $(function() {
+            $('#full_label-selector').change(function(){
+                $('.full_label').hide();
+                $('.full_label.' + $(this).val()).show();
+                console.log($(this).val())
+            });
+
+            $('.partial_label-selector-3D').change(function(){
+                var dataset = $('#partial_label-selector1_3D').val();
+                var label = $('#partial_label-selector2_3D').val();
+
+                $('.partial_label_3D').hide();
+                $('.partial_label_3D.' + dataset + '.' + label).show();
+                console.log('.partial_label_3D.' + dataset + '.' + label)
+            });
+
+            $('#live-selector').change(function(){
+                $('.live').hide();
+                $('.live.' + $(this).val()).show();
+            });
+
+            $('#obj3D-selector').change(function(){
+                $('.obj3D').hide();
+                $('.obj3D.' + $(this).val()).show();
+            });
+        });
+    </script>
     <p class="caption selection" style="grid-column-start: 1; grid-column-end: 3;">
               Object reconstruction results of scene
     <select id="full_label-selector" class="partial_label-selector" style="padding: 2px; background:#f0f0f0; border:none; font-family: &#39;Noto Sans&#39;, sans-serif; font-size:16px;">
                 <option value="scene1" selected="">Scene 1</option>
                 <option value="scene2">Scene 2</option>
-                <option value="scene3">Scene 3</option>
-                <option value="scene4">Scene 4</option>
+                <!-- <option value="scene3">Scene 3</option>
+                <option value="scene4">Scene 4</option> -->
 
    </select>
 
@@ -328,7 +356,7 @@ hr {
         </div>
     </div>
 
-    <div class="full_label scene2" >
+    <div class="full_label scene2" style="display:none">
         <div class="grid-container">
         <div class="obj1">
           <img src="./mesh/scene2/object_1.png" height="160" width="250">
@@ -402,7 +430,79 @@ hr {
             </div>
         </div>
 
-    
+        <!-- <div class="full_label scene3" >
+            <div class="grid-container">
+            <div class="obj1">
+              <img src="./mesh/scene3/object_1.png" height="160" width="250">
+            </div>
+            <div class="obj2">
+                    <model-viewer style="height: 180px; width: 300px;"
+                              orientation="0deg -90deg 90deg"
+                              alt="scene"
+                              src="./mesh/scene3/1_gt.glb"
+                              camera-controls auto-rotate
+                              exposure=".5"
+                              generate-schema>
+                    </model-viewer>
+              </div>
+              <div class="obj3">
+                    <model-viewer style="height: 180px; width: 300px;"
+                              orientation="0deg -90deg 90deg"
+                              alt="scene"
+                              src="./mesh/scene3/1_ours.glb"
+                              camera-controls auto-rotate
+                              exposure=".5"
+                              generate-schema>
+                    </model-viewer>
+              </div>
+              <div class="obj1">
+                <img src="./mesh/scene3/object_2.png" height="160" width="250">
+              </div>
+              <div class="obj2">
+                      <model-viewer style="height: 180px; width: 300px;"
+                                orientation="0deg -90deg -90deg"
+                                alt="scene"
+                                src="./mesh/scene3/2_gt.glb"
+                                camera-controls auto-rotate
+                                exposure=".5"
+                                generate-schema>
+                      </model-viewer>
+                </div>
+                <div class="obj3">
+                      <model-viewer style="height: 180px; width: 300px;"
+                                orientation="0deg -90deg -90deg"
+                                alt="scene"
+                                src="./mesh/scene3/2_ours.glb"
+                                camera-controls auto-rotate
+                                exposure=".5"
+                                generate-schema>
+                      </model-viewer>
+                </div>
+                <div class="obj1">
+                    <img src="./mesh/scene3/object_3.png" height="160" width="250">
+                  </div>
+                  <div class="obj2">
+                          <model-viewer style="height: 180px; width: 300px;"
+                                    orientation="0deg 90deg 0deg"
+                                    alt="scene"
+                                    src="./mesh/scene3/3_gt.glb"
+                                    camera-controls auto-rotate
+                                    exposure=".5"
+                                    generate-schema>
+                          </model-viewer>
+                    </div>
+                    <div class="obj3">
+                          <model-viewer style="height: 180px; width: 300px;"
+                                    orientation="0deg 90deg 0deg"
+                                    alt="scene"
+                                    src="./mesh/scene3/3_ours.glb"
+                                    camera-controls auto-rotate
+                                    exposure=".5"
+                                    generate-schema>
+                          </model-viewer>
+                    </div>
+                </div>
+            </div> -->
 
 <br>
 
