@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Resume</title>
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
   <style>
     /* Reset default browser styles */
     * {
@@ -33,7 +34,7 @@
     /* Main section */
     main {
       margin: 20px auto;
-      max-width: 800px;
+      max-width: 1200px;
       padding: 20px;
     }
     
@@ -67,7 +68,21 @@
       justify-content: center;
       margin-bottom: 20px;
     }
+
+    body,
+    td,
+    th,
+    tr,
+    p,
+    a {
+      font-family: 'Lato', Verdana, Helvetica, sans-serif;
+      font-size: 14px
+    }
     
+    td {
+      padding: 0;
+    }
+
     .contact img {
       width: 150px;
       height: 150px;
@@ -84,6 +99,32 @@
       color: #666;
       text-decoration: underline;
     }
+
+    a {
+      color: #1772d0;
+      text-decoration: none;
+    }
+    
+    a:focus,
+    a:hover {
+      color: #f09228;
+      text-decoration: none;
+    }
+
+    .one {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+    
+    .two {
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      transition: opacity .2s ease-in-out;
+      -moz-transition: opacity .2s ease-in-out;
+      -webkit-transition: opacity .2s ease-in-out;
+    }
     
     /* Footer section */
     footer {
@@ -92,6 +133,7 @@
       padding: 10px;
       text-align: center;
     }
+
     
     footer p {
       font-size: 14px;
@@ -120,58 +162,56 @@
   <!-- Main section -->
   <main>
     <h3>About Me</h3>
-    <p>Currently I am a Ph.D. student at Nanyang Technological University, Singapore, supervised by Prof. Cham Tat Jen. My research focus on 2D image generation/manipulation and 3D reconstruction/editing.</p>
+    <p>Currently I am a Ph.D. student in S-Lab at Nanyang Technological University, Singapore, supervised by Prof. Cham Tat Jen. My research focus on 2D image generation/manipulation and 3D reconstruction/editing.</p>
     <br>
     <h3>Education</h3>
     <p>(2022 - present) Ph.D. in Computer Science, Nanyang Technological University, Singapore</p>
     <p>(2017 - 2022) B.S. in Computer Science, Beihang University, Beijing, China</p>
     <br>
-    <h3>Intership</h3>
-    <p>(2022.2 - 2022.6) Intern at ByteDance AI Lab, Beijing, China</p>
-    <p>(2022.10 - 2022.12) Intern at SenseTime Autonomous Driving, Beijing, China</p>
+    <h3>Intership (Actively seeking an internship worldwide!)</h3>
+    <p>(2022.2 - 2022.6) Intern at ByteDance AI Lab, Voice Activity Detection, Beijing, China</p>
+    <p>(2022.10 - 2022.12) Intern at SenseTime Autonomous Driving, Autonomous Driving Planning, Beijing, China</p>
+    <br>
     <h3>Publications</h3>
-    <tr onmouseout="ipo_stop()" onmouseover="ipo_start()">
-            <td style="padding:20px;width:25%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id='ipo_image'>
-                <video  width=100% height=100% muted autoplay loop>
-                <source src="images/ipo_teaser.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-                </video></div>
-                <img src='images/ipo_teaser.png' padding="20" width="160">
-              </div>
-              <script type="text/javascript">
-                function ipo_start() {
-                  document.getElementById('ipo_image').style.opacity = "1";
-                }
+    <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+      <tr onmouseout="ipo_stop()" onmouseover="ipo_start()">
+        <td style="padding:20px;width:25%;vertical-align:middle">
+          <div class="one">
+            <div class="two" id='ipo_image'>
+            <video  width=100% height=100% muted autoplay loop>
+            <source src="images/ipo_teaser.mp4" type="video/mp4">
+            </video></div>
+            <img src='images/ipo_teaser.png' padding="20" width="200">
+          </div>
+          <script type="text/javascript">
+            function ipo_start() {
+              document.getElementById('ipo_image').style.opacity = "1";
+            }
 
-                function ipo_stop() {
-                  document.getElementById('ipo_image').style.opacity = "0";
-                }
-                ipo_stop()
-              </script>
-            </td>
-            <td style="padding:20px;width:75%;vertical-align:middle">
-              <a href="https://sm0kywu.github.io/panodiffusion/">
-                <papertitle>PanoDiffusion: 360-degree Panorama Outpainting via Diffusion</papertitle>
-              </a>
-              <br>
-              <strong>Tianhao Wu</strong>,
-              <a href="https://chuanxiaz.com/">Chuanxia Zheng</a>,
-              <a href="https://personal.ntu.edu.sg/astjcham/">Tat-Jen Cham</a>
-              <br>
-              <em>ICLR</em>, 2024
-              <br>
-              <a href="https://sm0kywu.github.io/panodiffusion/">project page</a> /
-              <a href="">PDF</a> /
-              <a href="https://arxiv.org/abs/2307.03177">arXiv</a> /
-              <!-- <a href="https://www.youtube.com/watch?v=cy0fDO3-QSA">video</a> / -->
-              <a href="https://sm0kywu.github.io/panodiffusion/">code</a>
-              <p></p>
-              <p>An indoor panorama outpainting model using latent diffusion models with view-consistent.</p>
-            </td>
-          </tr>
-    
-
-    
-     
+            function ipo_stop() {
+              document.getElementById('ipo_image').style.opacity = "0";
+            }
+            ipo_stop()
+          </script>
+        </td>
+        <td style="padding:20px;width:75%;vertical-align:middle">
+          <a href="https://sm0kywu.github.io/panodiffusion/">
+            PanoDiffusion: 360-degree Panorama Outpainting via Diffusion
+          </a>
+          <br>
+          <strong>Tianhao Wu</strong>,
+          <a href="https://chuanxiaz.com/">Chuanxia Zheng</a>,
+          <a href="https://personal.ntu.edu.sg/astjcham/">Tat-Jen Cham</a>
+          <br>
+          <em>ICLR</em>, 2024
+          <br>
+          <a href="https://sm0kywu.github.io/panodiffusion/">project page</a> /
+          <a href="">PDF</a> /
+          <a href="https://arxiv.org/abs/2307.03177">arXiv</a> /
+          <a href="https://sm0kywu.github.io/panodiffusion/">code</a>
+          <p></p>
+          <p>An indoor panorama outpainting model using latent diffusion models with view-consistent.</p>
+        </td>
+      </tr>
+    </tbody></table>    
+    <br>
