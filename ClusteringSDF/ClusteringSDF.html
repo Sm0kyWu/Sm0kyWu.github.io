@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Self-Organized Neura Implicit Surfaces for 3D Decomposition">
+  <meta name="keywords" content="ClusteringSDF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ClusteringSDF</title>
+
+  <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.png">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <script src="./static/js/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  gap: 10px;
+  padding: 0;
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 0;
+  font-size: 30px;
+}
+
+.obj1 {
+  grid-column: 1 / 3;
+}
+.obj2 {
+  grid-column: 3 / 5;
+}
+.obj3 {
+  grid-column: 5 / 7;
+}
+.obj4 {
+  grid-column: 7 / 9;
+}
+
+.content h4 {
+  font-size: 16px; !important;
+  padding: 0;
+  margin: 0; !important;
+}
+
+hr {
+  background-color: lightgray;!important;
+}
+
+</style>
+
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <!-- <div class="columns is-centered">
+        <div class="column is-7 has-text-centered">
+          <img src="media/nice-slam/nice-slam-logo2.png" alt="NICE-SLAM"/>
+        </div>
+      </div> -->
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">ClusteringSDF: Self-Organized Neura <br> Implicit Surfaces
+            for 3D Decomposition</h1>
+          <!-- <div class="column is-full_width">
+            <h2 class="title is-4">ICCV 2023</h2>
+          </div> -->
+          <!-- <br> -->
+          <div class="is-size-5">
+            <span class="author-block">
+                <a href="https://sm0kywu.github.io/CV/CV.html" style="color:#f68946;font-weight:normal;">Tianhao Wu</a>,
+              <span class="author-block">
+                <a href="https://chuanxiaz.com/" style="color:#F2A900;font-weight:normal;">Chuanxia Zheng</a>,
+              <span class="author-block">
+                <a href="https://personal.ntu.edu.sg/astjcham/index.html" style="color:#f68946;font-weight:normal;">Cham Tat Jen</a>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><b style="color:#f68946; font-weight:normal">&#x25B6 </b> SCSE, Nanyang Technological University; </b></span>
+            <span class="author-block"><b style="color:#F2A900; font-weight:normal">&#x25B6 </b> VGG, University of Oxford; </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="" target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+               <span class="link-block">
+                <a href="" target="_blank"
+		   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span >Code</span>
+                  </a>
+              </span> 
+            </div>
+
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop height="100%">
+        <source src="./images/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <!-- <img class="rounded" src="./objectsdf/teaser.png" > -->
+      <br><br><br>
+      <h2 class="subtitle has-text-centered">
+      <strong>ClusteringSDF</strong> is able to reconstruct the surface of the scene while <u>fusing the inconsistent machine-generated segments to be coherent in
+      3D</u>. It learns an object-compositional neural implicit representation and can <u>reconstruct the surfaces of individual objects purely from these noisy labels</u>.
+    </h2>
+    <!-- <h2 class="subtitle has-text-centered">
+      (The <span style="color:#000000;">black</span> / <span style="color:#ff0000;">red</span> lines are the ground truth / predicted camera trajectory)
+    </h2> -->
+    <!-- <h2 class="is-size-6 has-text-centered">(The <span style="color:#000000;">black</span> / <span style="color:#ff0000;">red</span> lines are the ground truth / predicted camera trajectory)</h2> -->
+    
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="columns is-centered has-text-centered">
+        <h2 class="title is-3">Abstract</h2>
+        </div>
+        </div>
+        <br>
+        <div class="content has-text-justified">
+          <img src="./images/overview.png" alt="">
+          <p>
+            <b>ClusteringSDF is designed to fuse inconsistent 2D segments
+                to 3D while reconstructing the object geometry by predicting their SDFs. To achieve
+                this, we sample rays from single 2D segment maps and split them into N groups corresponding to the N distinct 2D labels \(\{C_1,...,C_N\}\). The proposed \(L_{diff}\) then leverages
+                normalized SDF distributions encompassing c channels for individual objects (presented by different colors) and keeps the clustering centers to be apart, with \(L_{onehot}\)
+                further encouraging the predicted clusters to be in the one-hot format.</b>
+          </p>
+
+          <p>
+            3D decomposition/segmentation still remains a challenge as large-scale 3D annotated data is not readily available. 
+            Contemporary approaches typically leverage 2D machine-generated segments, integrating them for 3D consistency. 
+            While the majority of these methods are based on NeRFs, they face a potential weakness that the instance/semantic embedding features derive from independent MLPs, thus preventing the segmentation network from learning the geometric details of the objects directly through radiance and density. 
+            Therefore, In this paper, we propose ClusteringSDF, a novel approach to achieve both segmentation and reconstruction in 3D via the neural implicit surface representation, specifically Signal Distance Function (SDF), where the segmentation rendering is directly integrated with the volume rendering of neural implicit surfaces. 
+            Although based on ObjectSDF++, ClusteringSDF no longer requires the ground-truth segments for supervision while maintaining the capability of reconstructing individual object surfaces, but purely with the noisy and inconsistent labels from pre-trained models. 
+            As the core of ClusteringSDF, we introduce a high-efficient clustering mechanism for lifting the 2D labels to 3D and the experimental results on the challenging scenes from ScanNet and Replica datasets show that ClusteringSDF can achieve competitive performance compared against the state-of-the-art with significantly reduced training time.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="Result">
+  <div class="container is-max-desktop">
+    <div  class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+    <h2 class="title is-3">Results Gallery</h2>
+    </div>
+    </div>
+    <br>
+
+    <h3 class="title is-4">Multi-View Segmentation Comparisons</h3>
+        <div class="content has-text-justified">
+            <img src="./images/multi_view.png" alt="">
+            <p>
+            <b>Columns 2-4: semantic segmentation. Columns 5-7: instance segmentation. 
+               Segmentation comparisons from multiple camera views demonstrate that our segmentation is consistent across multiple views. 
+               On the other hand, it can also be observed that the segmentation results of ClusteringSDF are closer to the actual geometry of the objects (the areas marked by the red boxes) against the state-of-the-art Contrastive Lift.
+            </b>
+            </p>
+    
+
+    <h3 class="title is-4">Object Surface Reconstruction</h3>
+    <p class="caption selection" style="grid-column-start: 1; grid-column-end: 3;">
+              Object reconstruction results of scene
+    <select id="full_label-selector" class="partial_label-selector" style="padding: 2px; background:#f0f0f0; border:none; font-family: &#39;Noto Sans&#39;, sans-serif; font-size:16px;">
+                <option value="scene1" selected="">Scene 1</option>
+                <option value="scene2">Scene 2</option>
+                <option value="scene3">Scene 3</option>
+                <option value="scene4">Scene 4</option>
+
+   </select>
+
+      <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+        <div class="columns is-centered">
+        <!-- Wheel -->
+        <div class="column">
+          <div class="content" center>
+            <h2 class="title is-6 has-text-centered">Reference image</h2>
+          </div>
+        </div>
+  
+
+        <!-- Wheel -->
+        <div class="column">
+          <div class="content" center>
+            <h2 class="title is-6 has-text-centered">ObjectSDF++</h2>
+          </div>
+        </div>
+     
+            <div class="column">
+          <div class="content" center>
+            <h2 class="title is-6 has-text-centered">ClusteringSDF</h2>
+          </div>
+        </div>
+      </div>    
+      
+    <div class="full_label scene1" >
+    <div class="grid-container">
+    <div class="obj1">
+      <img src="./mesh/scene1/object_1.png" height="160" width="300">
+    </div>
+    <div class="obj2">
+            <model-viewer style="height: 120px; width: 200px;"
+                      orientation="0deg -90deg 135deg"
+                      alt="scene"
+                      src="./mesh/scene1/1_gt.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+      <div class="obj3">
+            <model-viewer style="height: 120px; width: 200px;"
+                      orientation="0deg 0deg 135deg"
+                      alt="scene"
+                      src="./mesh/scene1/1.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+
+    
+    
+
+    
+
+    
+
+    </div>
+  </div>
+
+
+    <div class="full_label office0" style="display:none">
+    <div class="grid-container">
+      <div class="obj1">
+      <img src="./objsdfplus/meshes/objsdf/office0/blackboard.png" height="120" width="200">
+    </div>
+    <div class="obj2">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 180deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/vmap/office0/obj_49.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+      <div class="obj3">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 180deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdf/office0/surface_2000_5.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+          <div class="obj4">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 180deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdfpp/office0/surface_2000_5.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+    <div class="obj1">
+      <img src="./objsdfplus/meshes/objsdf/office0/chair.png" height="120" width="200">
+    </div>
+    <div class="obj2">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 45deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/vmap/office0/obj_4.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+      <div class="obj3">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 45deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdf/office0/surface_2000_10.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+          <div class="obj4">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 45deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdfpp/office0/surface_2000_10.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+
+    <div class="obj1">
+      <img src="./objsdfplus/meshes/objsdf/office0/bin.png" height="120" width="200">
+    </div>
+    <div class="obj2">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 0deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/vmap/office0/obj_34.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+      <div class="obj3">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 0deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdf/office0/surface_2000_8.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+          <div class="obj4">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 0deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdfpp/office0/surface_2000_8.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+
+    <div class="obj1">
+      <img src="./objsdfplus/meshes/objsdf/office0/tv.png" height="120" width="200">
+    </div>
+    <div class="obj2">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 90deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/vmap/office0/obj_66.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+      <div class="obj3">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 90deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdf/office0/surface_2000_22.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+          <div class="obj4">
+            <model-viewer style="height: 120px; width: 200px;"
+            orientation="0deg -90deg 90deg"
+                      alt="scene"
+                      src="./objsdfplus/meshes/objsdfpp/office0/surface_2000_22.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+            </model-viewer>
+      </div>
+
+      </div>
+    </div>
+
+<br>
+
+
+<section class="section" id="Concurrent works">
+  <div class="container is-max-desktop content">
+        <div  class="columns is-centered has-text-centered">
+    <h2 class="title">Related Links</h2>
+  </div>
+    <br>
+    Check these concurrent works we found, which provide thought-provoking ideas towards this direction:
+    <li><a href="https://arxiv.org/abs/2207.09686">ObjectSDF</a>. An framework to build an object-compositional neural implicit representation with high fidelity in 3D reconstruction and object representation.</li>
+    <li><a href="https://arxiv.org/abs/2308.07868">ObjectSDF++</a>. An improved framework to overcome the limitations of ObjectSDF with an occlusion-aware object opacity rendering formulation.</li>
+    <li><a href="https://arxiv.org/abs/2212.09802">Panoptic Lifting</a>. A framework to learn panoptic 3D volumetrirepresentations from 2D multiview panoptic segmentation masks.</li>
+    <li><a href="https://arxiv.org/abs/2306.04633">Contrastive Lift</a>. A framework to lift 2D segments to 3D and fuse them by means of a neural field representation via a slow-fast clustering objective function.
+      <br>
+    <!-- <li><a href="https://wuqianyi.top/objectsdf/">ObjectSDF</a>. Object-compositional reconstruction by neural implicit surfaces. </li> -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code></code></pre>
+    </div>
+  </section>
+
+
+<!-- <section class="section" id="Related ">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Acknowledgements</h2>
+      The authors thank the <a href="https://learning-systems.org/">Max Planck ETH Center for Learning Systems (CLS)</a> for supporting Songyou Peng.
+      We also thank Edgar Sucar for providing additional implementation details about iMAP. Special thanks to Chi Wang for offering the data collection site.
+      The thumb-up logo was created by <a href="https://www.flaticon.com/free-icon/like_1392115?term=great&page=1&position=9&page=1&position=9&related_id=1392115&origin=tag" title="great icons">Freepik - Flaticon</a>.
+    </div>
+  </section> -->
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage originated from <a href="https://wuqianyi.top/objectsdf++">ObjectSDF++</a>.
+            We sincerely thank <a href="https://qianyiwu.github.io/">Qianyi Wu</a> for developing and open-sourcing this template.
+          </p>
+        </div>
+      </div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
