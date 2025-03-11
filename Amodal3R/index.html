@@ -1,0 +1,343 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Amodal 3D Reconstruction from Occluded 2D Images">
+  <meta name="keywords" content="Amodal3R">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amodal3R</title>
+
+  <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.png">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+  <script src="./static/js/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  gap: 10px;
+  padding: 0;
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 0;
+  font-size: 30px;
+}
+
+.obj1 {
+  grid-column: 1 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.obj2 {
+  grid-column: 3 / 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.obj3 {
+  grid-column: 5 / 7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.obj4 {
+  grid-column: 7 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content h4 {
+  font-size: 16px; !important;
+  padding: 0;
+  margin: 0; !important;
+}
+
+hr {
+  background-color: lightgray;!important;
+}
+
+</style>
+
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <!-- <div class="columns is-centered">
+        <div class="column is-7 has-text-centered">
+          <img src="media/nice-slam/nice-slam-logo2.png" alt="NICE-SLAM"/>
+        </div>
+      </div> -->
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title gradient-text bg-highlight">Amodal3R: Amodal 3D Reconstruction from Occluded 2D Images</h1>
+          <!-- <div class="column is-full_width">
+            <h2 class="title is-4"></h2>
+          </div> -->
+          <!-- <br> -->
+          <div class="is-size-5">
+            <span class="author-block">
+                <a href="https://sm0kywu.github.io/CV/CV.html" style="color:#f68946;font-weight:normal;">Tianhao Wu</a>,
+              <span class="author-block">
+                <a href="https://chuanxiaz.com/" style="color:#143591;font-weight:normal;">Chuanxia Zheng</a>,
+              <span class="author-block">
+                <a href="https://www.singaporetech.edu.sg/directory/faculty/frank-guan" style="color:#f5677a;font-weight:normal;">Yunqing Guan</a>,
+	      <span class="author-block">
+                <a href="https://www.robots.ox.ac.uk/~vedaldi/" style="color:#143591;font-weight:normal;">Andrea Vedaldi</a>,
+                <a href="https://personal.ntu.edu.sg/astjcham/index.html" style="color:#f68946;font-weight:normal;">Tat-Jen Cham</a>,
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><b style="color:#f68946; font-weight:normal">&#x25B6 </b> Nanyang Technological University; </b></span>
+            <span class="author-block"><b style="color:#143591; font-weight:normal">&#x25B6 </b> Visual Geometry Group, University of Oxford; </span>
+	    <span class="author-block"><b style="color:#f5677a; font-weight:normal">&#x25B6 </b> Singapore Institute of Technology; </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a target="_blank"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop height="100%">
+        <source src="./images/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <br><br><br>
+      <h2 class="subtitle has-text-centered">
+      <strong>TL;DR:</strong> Given <strong><em>partially visible objects</em></strong> within images, Amodal3R reconstructs semantically meaningful 3D assets with reasonable geometry and plausible appearance.
+    </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+        <div class="content has-text-justified">
+          <div class="content has-text-justified" style="background-color: rgba(236, 234, 250, 0.8); padding: 20px; border-radius: 10px;">
+          <p>
+            <b>Abstract:</b> Most image-based 3D object reconstructors assume that objects are fully visible, 
+              ignoring occlusions that commonly occur in real-world scenarios. 
+              In this paper, we introduce Amodal3R, a conditional 3D generative model designed to reconstruct 3D objects from partial observations. 
+              We start from a "foundation" 3D generative model and extend it to recover plausible 3D geometry and appearance from occluded objects. 
+              We introduce a mask-weighted multi-head cross-attention mechanism followed by an occlusion-aware attention layer that explicitly leverages occlusion priors to guide the reconstruction process. 
+              We demonstrate that, by training solely on synthetic data, Amodal3R learns to recover full 3D objects even in the presence of occlusions in real scenes. 
+              It substantially outperforms existing methods that independently perform 2D amodal completion followed by 3D reconstruction, thereby establishing a new benchmark for occlusion-aware 3D reconstruction.
+          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="Results">
+  <div class="container is-max-desktop content">
+        <div  class="columns is-centered has-text-centered">
+          <h2 class="subtitle has-text-centered gradient-text bg-highlight">
+            Examples
+          </h2>
+  </div>
+  <div class="hero-body">
+    <video id="teaser" autoplay muted loop height="100%">
+      <source src="./images/compare.mp4"
+              type="video/mp4">
+    </video>
+  </div>
+  <div class="columns is-centered has-text-centered">
+    <p>Compared with 2D amodal completion + 3D reconstruction, Amodal3R achieves better performance in terms of 3D reconstruction quality from occluded object. 
+      The target objects and occluders are marked with <span style="color: #d61f1f; font-weight:bold;">red</span> and <span style="color: #268b26; font-weight:bold;">green</span> outlines.</p>
+  </div>
+  </div>
+
+  <div class="hero-body is-centered" style="width: 1024px; margin: 0 auto;">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <div class="columns is-centered">
+    <div class="column">
+      <div class="content">
+        <h2 class="title is-6 has-text-centered">Input image</h2>
+      </div>
+    </div>
+    <div class="column">
+      <div class="content">
+        <h2 class="title is-6 has-text-centered">Amodal3R</h2>
+      </div>
+    </div>
+    <div class="column">
+      <div class="content">
+        <h2 class="title is-6 has-text-centered">Input image</h2>
+      </div>
+    </div>
+    <div class="column">
+      <div class="content">
+        <h2 class="title is-6 has-text-centered">Amodal3R</h2>
+      </div>
+    </div>
+  </div>    
+  
+  <!-- 四个项目在同一行排列 -->
+  <div class="full_label scene1">
+    <div class="grid-container">
+      <div class="obj1">
+        <img src="./images/motorcycle.png" height="196" width="196" alt="Input Image">
+      </div>
+      <div class="obj2">
+        <model-viewer style="height: 196px; width: 196px;"
+                      orientation="0deg -90deg 90deg"
+                      alt="Amodal3R"
+                      src="./images/glb/motorcycle.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+        </model-viewer>
+      </div>
+      <div class="obj3">
+        <img src="./images/motorcycle.png" height="196" width="196" alt="Input Image">
+      </div>
+      <div class="obj4">
+        <model-viewer style="height: 196px; width: 196px;"
+                      orientation="0deg -90deg 90deg"
+                      alt="Amodal3R"
+                      src="./images/glb/motorcycle.glb"
+                      camera-controls auto-rotate
+                      exposure=".5"
+                      generate-schema>
+        </model-viewer>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section" id="Results">
+  <div class="container is-max-desktop content">
+        <div  class="columns is-centered has-text-centered">
+          <h2 class="subtitle has-text-centered gradient-text bg-highlight">
+            Methodology
+          </h2>
+  </div>
+  <div class="content has-text-justified">
+    <img src="./images/overview.png" alt="Methodology Illustration">
+    <p><b>Overview:</b> Given an image as input and <span style="color: #ffc400; font-weight:bold;">point prompts</span> in the regions of interest, Amodal3R first extracts the partially visible target
+    object, along with the <span style="color: #d61f1f; font-weight:bold;">visibility</span> and <span style="color: #268b26; font-weight:bold;">occlusion</span> masks using an off-the-shelf 2D segmenter. It then applies DINOv2 to extract features
+    cdino as additional conditioning for the 3D reconstructor. To enhance occlusion reasoning, each transformer block incorporates a mask-
+    weighted cross-attention (via \(c_{vis}\)) and occlusion-aware attention layer (via \(c_{occ}\)), ensuring the 3D reconstructor accurately perceives
+    visible information while effectively inferring occluded parts.</p> 
+  </div>
+  </div>
+
+  
+</section>
+
+
+
+
+<section class="section" id="Concurrent works">
+  <div class="container is-max-desktop content">
+        <div  class="columns is-centered has-text-centered">
+    <h2 class="subtitle has-text-centered gradient-text bg-highlight">Related Links</h2>
+  </div>
+    Check these concurrent works we found, which provide thought-provoking ideas towards this direction:
+    <li><a href="https://arxiv.org/abs/2412.01506">TRELLIS</a>. A native 3D generative model built on a unified Structured Latent representation and Rectified Flow Transformers, enabling versatile and high-quality 3D asset creation. </li>
+    <li><a href="https://arxiv.org/abs/2411.08033">GaussianAnything</a>. GaussianAnything generates high-quality and editable surfel Gaussians through a cascaded 3D diffusion pipeline, given single-view images or texts as the conditions. </li>
+    <br>
+  </div>
+</section>
+
+
+<!-- <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@misc{wu2024clusteringsdf,
+      title={ClusteringSDF: Self-Organized Neural Implicit Surfaces for 3D Decomposition}, 
+      author={Tianhao Wu and Chuanxia Zheng and Tat-Jen Cham and Qianyi Wu},
+      year={2024},
+      eprint={2403.14619},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}</code></pre>
+    </div>
+  </section> -->
+
+
+<!-- <section class="section" id="Related ">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Acknowledgements</h2>
+      The authors thank the <a href="https://learning-systems.org/">Max Planck ETH Center for Learning Systems (CLS)</a> for supporting Songyou Peng.
+      We also thank Edgar Sucar for providing additional implementation details about iMAP. Special thanks to Chi Wang for offering the data collection site.
+      The thumb-up logo was created by <a href="https://www.flaticon.com/free-icon/like_1392115?term=great&page=1&position=9&page=1&position=9&related_id=1392115&origin=tag" title="great icons">Freepik - Flaticon</a>.
+    </div>
+  </section> -->
+
+
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage originated from <a href="https://wuqianyi.top/objectsdf++">ObjectSDF++</a>.
+            We sincerely thank <a href="https://qianyiwu.github.io/">Qianyi Wu</a> for developing and open-sourcing this template.
+          </p>
+        </div>
+      </div>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
