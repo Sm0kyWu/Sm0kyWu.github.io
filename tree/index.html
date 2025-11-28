@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Bright Christmas Tree</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            /* 背景稍微调深一点，对比出粒子的亮度 */
+            background: radial-gradient(circle at center, #111a22 0%, #000000 100%);
+        }
+        canvas { display: block; }
+        #loading {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: #fff; font-family: 'Arial', sans-serif; pointer-events: none;
+            text-shadow: 0 0 15px rgba(255,215,0, 0.8); /* 金色发光字 */
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+        }
+    </style>
+    <!-- 引入 Three.js 和 Tween.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "@tweenjs/tween.js": "https://unpkg.com/@tweenjs/tween.js@23.1.1/dist/tween.esm.js"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="loading">✨ 正在点亮圣诞树...</div>
+    
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import TWEEN from '@tweenjs/tween.js';
+
+        // --- 配置区域 ---
+        const CONFIG = {
+            photoCount: 54,
+            particleCount: 3500,     // 稍微增加粒子密度
+            bgParticleCount: 800,    // 背景雪花数量
+            treeHeight: 30,
+            treeRadius: 10,
+            cycleTime: 12000,
+            holdTime: 4000,
+        };
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.012); // 黑色雾气，增加深邃感
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 5, 42);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace; 
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 0.8;
+        controls.maxPolarAngle = Math.PI / 1.4;
+
+        // --- 材质升级 ---
+
+        // 1. 更亮的光晕贴图
+        function createBrightGlowTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64; // 分辨率提高
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            // 核心更白更亮
+            grad.addColorStop(0, 'rgba(255,255,255,1)'); 
+            grad.addColorStop(0.3, 'rgba(255,255,255,0.8)');
+            grad.addColorStop(0.5, 'rgba(255,255,255,0.3)');
+            grad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 64, 64);
+            return new THREE.CanvasTexture(canvas);
+        }
+        const particleTexture = createBrightGlowTexture();
+
+        // 2. 更鲜艳的配色
+        const PALETTE = [
+            new THREE.Color('#228b22'), // 森林绿
+            new THREE.Color('#32cd32'), // 酸橙绿 (更亮)
+            new THREE.Color('#ff0000'), // 纯红
+            new THREE.Color('#ff0000'), 
+            new THREE.Color('#ffd700'), // 金色 (多加几次提高权重)
+            new THREE.Color('#ffd700'),
+            new THREE.Color('#ffffff'), // 纯白
+            new THREE.Color('#00ffff'), // 少量青色增加冷光感
+        ];
+
+        function getRandomTreeColor() {
+            return PALETTE[Math.floor(Math.random() * PALETTE.length)];
+        }
+
+        function getTreePosition(index, total, radius, height) {
+            const progress = index / total;
+            const y = progress * height - height / 2;
+            const r = radius * (1 - Math.pow(progress, 0.8)); 
+            const angle = index * 1.5;
+            const x = Math.cos(angle) * r;
+            const z = Math.sin(angle) * r;
+            return new THREE.Vector3(x, y, z);
+        }
+
+        function getRandomPosition(range) {
+            return new THREE.Vector3(
+                (Math.random() - 0.5) * range,
+                (Math.random() - 0.5) * range,
+                (Math.random() - 0.5) * range
+            );
+        }
+
+        // --- 圣诞树粒子 ---
+        const treeGeometry = new THREE.BufferGeometry();
+        const treePosArray = [];
+        const treeColorArray = [];
+        const treeTargetData = [];
+
+        for(let i = 0; i < CONFIG.particleCount; i++) {
+            const treePos = getTreePosition(i, CONFIG.particleCount, CONFIG.treeRadius, CONFIG.treeHeight);
+            treePos.x += (Math.random() - 0.5) * 0.6;
+            treePos.z += (Math.random() - 0.5) * 0.6;
+
+            treePosArray.push(treePos.x, treePos.y, treePos.z);
+
+            const color = getRandomTreeColor();
+            treeColorArray.push(color.r, color.g, color.b);
+
+            treeTargetData.push({
+                home: treePos,
+                wander: getRandomPosition(60) 
+            });
+        }
+
+        treeGeometry.setAttribute('position', new THREE.Float32BufferAttribute(treePosArray, 3));
+        treeGeometry.setAttribute('color', new THREE.Float32BufferAttribute(treeColorArray, 3));
+
+        const treeMaterial = new THREE.PointsMaterial({
+            size: 0.8,              // <--- 增大尺寸，更亮
+            map: particleTexture,
+            vertexColors: true,
+            transparent: true,
+            opacity: 1.0,           // <--- 不透明度拉满
+            depthWrite: false,
+            blending: THREE.AdditiveBlending // 叠加混合，重叠处会非常亮
+        });
+
+        const treeSystem = new THREE.Points(treeGeometry, treeMaterial);
+        scene.add(treeSystem);
+
+        // --- 背景大雪花 ---
+        const bgGeo = new THREE.BufferGeometry();
+        const bgPos = [];
+        for(let i=0; i<CONFIG.bgParticleCount; i++) {
+            const pos = getRandomPosition(120); 
+            bgPos.push(pos.x, pos.y, pos.z);
+        }
+        bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgPos, 3));
+        
+        const bgMat = new THREE.PointsMaterial({
+            color: 0xffffff,        // 纯白雪花
+            size: 0.8,              // <--- 雪花变大 (原0.2)
+            map: particleTexture,
+            transparent: true,
+            opacity: 0.6,           // 稍微柔和一点
+            blending: THREE.AdditiveBlending
+        });
+        const bgSystem = new THREE.Points(bgGeo, bgMat);
+        scene.add(bgSystem);
+
+        // --- 照片系统 ---
+        // const photos = [];
+        // const photoGroup = new THREE.Group();
+        // scene.add(photoGroup);
+
+        // function createCardTexture(id) {
+        //     const c = document.createElement('canvas');
+        //     c.width = 256; c.height = 320;
+        //     const ctx = c.getContext('2d');
+        //     ctx.fillStyle = '#fff';
+        //     ctx.fillRect(0,0,256,320);
+        //     ctx.fillStyle = '#111';
+        //     ctx.fillRect(16,16,224,240);
+        //     ctx.fillStyle = '#888';
+        //     ctx.font = '20px Arial';
+        //     ctx.textAlign = 'center';
+        //     ctx.fillText("Xmas " + id, 128, 290);
+        //     // 霓虹色数字
+        //     ctx.fillStyle = `hsl(${Math.random()*360}, 80%, 60%)`;
+        //     ctx.font = 'bold 80px Arial';
+        //     ctx.textBaseline = 'middle';
+        //     ctx.fillText(id, 128, 136);
+        //     return new THREE.CanvasTexture(c);
+        // }
+
+        // for (let i = 0; i < CONFIG.photoCount; i++) {
+        //     const geometry = new THREE.PlaneGeometry(1.6, 2.0);
+        //     const material = new THREE.MeshBasicMaterial({
+        //         map: createCardTexture(i+1),
+        //         side: THREE.DoubleSide
+        //     });
+        //     const mesh = new THREE.Mesh(geometry, material);
+
+        //     const treePos = getTreePosition(i, CONFIG.photoCount, CONFIG.treeRadius + 1.5, CONFIG.treeHeight);
+        //     const randomPos = getRandomPosition(50);
+
+        //     mesh.userData = {
+        //         treePos: treePos,
+        //         treeRot: new THREE.Euler(0, -i * 0.1, 0),
+        //         randomPos: randomPos,
+        //         randomRot: new THREE.Euler(Math.random()*Math.PI, Math.random()*Math.PI, 0)
+        //     };
+            
+        //     mesh.position.copy(randomPos);
+        //     mesh.rotation.copy(mesh.userData.randomRot);
+
+        //     photoGroup.add(mesh);
+        //     photos.push(mesh);
+        // }
+        // --- 5. 照片系统 (已修改为读取本地图片) ---
+        const photos = [];
+        const photoGroup = new THREE.Group();
+        scene.add(photoGroup);
+
+        // 创建纹理加载器
+        const textureLoader = new THREE.TextureLoader();
+
+        // 循环加载照片
+        for (let i = 0; i < CONFIG.photoCount; i++) {
+            const geometry = new THREE.PlaneGeometry(1.6, 2.1); // 照片比例，可调整 (宽, 高)
+            
+            // 加载 ./photos/1.jpg, ./photos/2.jpg ...
+            // 注意：图片路径是相对 index.html 的路径
+            const texture = textureLoader.load(`./photos/${i + 1}.jpg`);
+            
+            // 解决图片被拉伸的问题，保持清晰
+            texture.colorSpace = THREE.SRGBColorSpace;
+
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                side: THREE.DoubleSide
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
+
+            // 计算位置 (和之前一样)
+            const treePos = getTreePosition(i, CONFIG.photoCount, CONFIG.treeRadius + 1.5, CONFIG.treeHeight);
+            const randomPos = getRandomPosition(50);
+
+            mesh.userData = {
+                treePos: treePos,
+                treeRot: new THREE.Euler(0, -i * 0.1, 0),
+                randomPos: randomPos,
+                randomRot: new THREE.Euler(Math.random()*Math.PI, Math.random()*Math.PI, 0)
+            };
+            
+            mesh.position.copy(randomPos);
+            mesh.rotation.copy(mesh.userData.randomRot);
+
+            photoGroup.add(mesh);
+            photos.push(mesh);
+        }
+
+        // --- 动画逻辑 ---
+        let isAssembled = false;
+
+        function transform(targetState) {
+            const duration = 2500;
+
+            photos.forEach(photo => {
+                const targetPos = targetState === 'tree' ? photo.userData.treePos : photo.userData.randomPos;
+                const targetRot = targetState === 'tree' ? photo.userData.treeRot : photo.userData.randomRot;
+
+                new TWEEN.Tween(photo.position)
+                    .to({ x: targetPos.x, y: targetPos.y, z: targetPos.z }, duration)
+                    .easing(TWEEN.Easing.Quintic.InOut)
+                    .start();
+
+                new TWEEN.Tween(photo.rotation)
+                    .to({ x: targetRot.x, y: targetRot.y, z: targetRot.z }, duration)
+                    .easing(TWEEN.Easing.Cubic.InOut)
+                    .start();
+            });
+
+            const obj = { val: 0 }; 
+            const currentPositions = Float32Array.from(treeGeometry.attributes.position.array);
+            const targetPositions = new Float32Array(currentPositions.length);
+
+            for(let i=0; i<treeTargetData.length; i++) {
+                const target = targetState === 'tree' ? treeTargetData[i].home : treeTargetData[i].wander;
+                targetPositions[i*3] = target.x;
+                targetPositions[i*3+1] = target.y;
+                targetPositions[i*3+2] = target.z;
+            }
+
+            new TWEEN.Tween(obj)
+                .to({ val: 1 }, duration)
+                .easing(TWEEN.Easing.Quintic.InOut)
+                .onUpdate(() => {
+                    const positions = treeGeometry.attributes.position.array;
+                    for(let i=0; i<positions.length; i++) {
+                        positions[i] = currentPositions[i] + (targetPositions[i] - currentPositions[i]) * obj.val;
+                    }
+                    treeGeometry.attributes.position.needsUpdate = true;
+                })
+                .start();
+        }
+
+        function startLoop() {
+            document.getElementById('loading').style.display = 'none';
+            isAssembled = true;
+            transform('tree');
+
+            setInterval(() => {
+                isAssembled = !isAssembled;
+                transform(isAssembled ? 'tree' : 'scatter');
+                controls.autoRotateSpeed = isAssembled ? 0.8 : 0.2;
+            }, CONFIG.cycleTime / 2 + CONFIG.holdTime);
+        }
+
+        setTimeout(startLoop, 1000);
+
+        // --- 渲染 ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate(time) {
+            requestAnimationFrame(animate);
+            
+            const delta = clock.getDelta();
+            const elapsed = clock.getElapsedTime();
+
+            TWEEN.update(time);
+            controls.update();
+
+            if(isAssembled) {
+                // 树身轻微呼吸感
+                treeSystem.rotation.y = Math.sin(elapsed * 0.3) * 0.05; 
+            } else {
+                treeSystem.rotation.y += 0.0005;
+            }
+
+            // 雪花飘落动画
+            const bgPos = bgSystem.geometry.attributes.position.array;
+            for(let i=1; i<bgPos.length; i+=3) {
+                bgPos[i] -= delta * 3.5; // <--- 雪下得更快
+                if(bgPos[i] < -60) bgPos[i] = 60; 
+            }
+            bgSystem.geometry.attributes.position.needsUpdate = true;
+            bgSystem.rotation.y += delta * 0.02;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
